@@ -2,21 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:sistempakarfinal/utils/api_bobot.dart';
 import 'package:sistempakarfinal/model/bobot.dart';
 
-
 final GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
 
-class TambahBobot extends StatefulWidget {
-
+class TambahRule extends StatefulWidget {
   Bobot bobot;
 
-  TambahBobot({this.bobot});
+  TambahRule({this.bobot});
 
   @override
-  _TambahBobotState createState() => _TambahBobotState();
+  _TambahRuleState createState() => _TambahRuleState();
 }
 
-class _TambahBobotState extends State<TambahBobot> {
-
+class _TambahRuleState extends State<TambahRule> {
   bool _isLoading = false;
   ApiBobot _apiBobot = ApiBobot();
   bool _isFieldKeteranganValid;
@@ -135,7 +132,7 @@ class _TambahBobotState extends State<TambahBobot> {
     );
   }
 
-   Widget _buildTextFieldKeterangan() {
+  Widget _buildTextFieldKeterangan() {
     return TextField(
       controller: _controllerKeterangan,
       keyboardType: TextInputType.text,
@@ -172,5 +169,4 @@ class _TambahBobotState extends State<TambahBobot> {
       },
     );
   }
-
 }

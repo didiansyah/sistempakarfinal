@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:sistempakarfinal/utils/api_bobot.dart';
 import 'package:sistempakarfinal/model/bobot.dart';
-import 'package:sistempakarfinal/screen/administrator/bobot/tambah_bobot.dart';
+import 'package:sistempakarfinal/screen/administrator/datarule/tambah_rule.dart';
 
-class DataBobot extends StatefulWidget {
+class DataRule extends StatefulWidget {
   @override
-  _DataBobotState createState() => _DataBobotState();
+  _DataRuleState createState() => _DataRuleState();
 }
 
-class _DataBobotState extends State<DataBobot> {
-
+class _DataRuleState extends State<DataRule> {
   BuildContext context;
   ApiBobot apiBobot;
 
@@ -24,41 +23,45 @@ class _DataBobotState extends State<DataBobot> {
     this.context = context;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Bobot User'),
+        title: Text('Data Rule'),
       ),
       body: SafeArea(
-      child: FutureBuilder(
-        future: apiBobot.getBobot(),
-        builder: (BuildContext context, AsyncSnapshot<List<Bobot>> snapshot) {
-          if (snapshot.hasError) {
-            return Center(
-              child: Text(
-                  "Something wrong with message: ${snapshot.error.toString()}"),
-            );
-          } else if (snapshot.connectionState == ConnectionState.done) {
-            List<Bobot> bobots = snapshot.data;
-            return _buildListView(bobots);
-          } else {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
+        child: FutureBuilder(
+          future: apiBobot.getBobot(),
+          builder: (BuildContext context, AsyncSnapshot<List<Bobot>> snapshot) {
+            if (snapshot.hasError) {
+              return Center(
+                child: Text(
+                    "Something wrong with message: ${snapshot.error.toString()}"),
+              );
+            } else if (snapshot.connectionState == ConnectionState.done) {
+              List<Bobot> bobots = snapshot.data;
+              return _buildListView(bobots);
+            } else {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          },
+        ),
       ),
-    ),
-    floatingActionButton: Container(
+      floatingActionButton: Container(
         padding: EdgeInsets.only(bottom: 5.0),
         child: Align(
           alignment: Alignment.bottomCenter,
           child: FloatingActionButton.extended(
-            onPressed: (){
-            Navigator.push(
-                context,
-                new MaterialPageRoute(
-                    builder: (context) => TambahBobot()));
+            onPressed: () {
+              Navigator.push(context,
+                  new MaterialPageRoute(builder: (context) => TambahRule()));
             },
-            icon: Icon(Icons.add, color: Colors.white,),
-            label: Text("Tambah Bobot User", style: TextStyle(color: Colors.white),),
+            icon: Icon(
+              Icons.add,
+              color: Colors.white,
+            ),
+            label: Text(
+              "Tambah Data Rule",
+              style: TextStyle(color: Colors.white),
+            ),
             backgroundColor: Colors.green,
           ),
         ),
@@ -85,7 +88,8 @@ class _DataBobotState extends State<DataBobot> {
                   children: <Widget>[
                     Text(
                       bobot.keterangan,
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     Text(bobot.bobotuser),
                     Row(
@@ -99,15 +103,15 @@ class _DataBobotState extends State<DataBobot> {
                                   return AlertDialog(
                                     title: Text("Warning"),
                                     content: Text(
-                                        "Are you sure want to delete bobot user ${bobot.keterangan}?"),
+                                        "Are you sure want to delete data rule ${bobot.keterangan}?"),
                                     actions: <Widget>[
                                       FlatButton(
                                         child: Text("Yes"),
                                         onPressed: () {
                                           Navigator.pop(context);
-                                          apiBobot .deleteBobot(bobot.id) .then((isSuccess) {
-
-                                                
+                                          apiBobot
+                                              .deleteBobot(bobot.id)
+                                              .then((isSuccess) {
                                             if (isSuccess) {
                                               setState(() {});
                                               Scaffold.of(this.context)
@@ -115,7 +119,6 @@ class _DataBobotState extends State<DataBobot> {
                                                       content: Text(
                                                           "Delete data success")));
                                             } else {
-
                                               Scaffold.of(this.context)
                                                   .showSnackBar(SnackBar(
                                                       content: Text(
@@ -143,7 +146,7 @@ class _DataBobotState extends State<DataBobot> {
                           onPressed: () {
                             Navigator.push(context,
                                 MaterialPageRoute(builder: (context) {
-                              return TambahBobot(bobot: bobot);
+                              return TambahRule(bobot: bobot);
                             }));
                           },
                           child: Text(

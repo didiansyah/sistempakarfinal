@@ -8,7 +8,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sistempakarfinal/screen/administrator/account.dart';
 import 'package:sistempakarfinal/screen/administrator/penyakit/data_penyakit.dart';
 import 'package:sistempakarfinal/screen/administrator/gejala/data_gejala.dart';
-import 'package:sistempakarfinal/screen/administrator/bobot/data_bobot.dart';
+import 'package:sistempakarfinal/screen/administrator/datarule/data_rule.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -28,26 +28,25 @@ class _HomeState extends State<Home> {
               color: Colors.white,
             ),
             onPressed: () {
-              Navigator.push(context, 
-              MaterialPageRoute(builder: (context) => Akun()
-              ));
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Akun()));
             },
           )
         ],
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Expanded(
-              child: Row(
+      body: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: <
+          Widget>[
+        Expanded(
+          child: Row(
             children: <Widget>[
               Expanded(
                 child: ReusableCard(
                   colour: kActiveCardColour,
                   onPress: () {
-                    Navigator.push(context, 
-                    MaterialPageRoute(builder: (context) => DataPenyakit()
-                    ));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => DataPenyakit()));
                   },
                   cardChild: IconContent(
                     icon: FontAwesomeIcons.bookmark,
@@ -57,17 +56,16 @@ class _HomeState extends State<Home> {
               ),
             ],
           ),
-         ),
-         Expanded(
-              child: Row(
+        ),
+        Expanded(
+          child: Row(
             children: <Widget>[
               Expanded(
                 child: ReusableCard(
                   colour: kActiveCardColour,
                   onPress: () {
-                    Navigator.push(context, 
-                    MaterialPageRoute(builder: (context) => DataGejala()
-                    ));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => DataGejala()));
                   },
                   cardChild: IconContent(
                     icon: FontAwesomeIcons.clone,
@@ -75,42 +73,29 @@ class _HomeState extends State<Home> {
                   ),
                 ),
               ),
-              Expanded(
-                child: ReusableCard(
-                  colour: kActiveCardColour,
-                  onPress: () {
-                    Navigator.push(context, 
-                    MaterialPageRoute(builder: (context) => DataBobot()
-                    ));
-                  },
-                  cardChild: IconContent(
-                    icon: FontAwesomeIcons.chartBar,
-                    label: 'Bobot User',
-                  ),
-                ),
-              ),
             ],
           ),
-         ),
+        ),
         Expanded(
-              child: Row(
+          child: Row(
             children: <Widget>[
               Expanded(
                 child: ReusableCard(
                   colour: kActiveCardColour,
-                  onPress: () {},
+                  onPress: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => DataRule()));
+                  },
                   cardChild: IconContent(
-                    icon: FontAwesomeIcons.checkCircle,
-                    label: 'Diagnosa',
+                    icon: FontAwesomeIcons.chartBar,
+                    label: 'Data Rule',
                   ),
                 ),
               ),
             ],
           ),
-         ),
-
-        ]
-      ),
+        ),
+      ]),
     );
   }
 }
