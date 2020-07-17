@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sistempakarfinal/utils/api_bobot.dart';
-import 'package:sistempakarfinal/model/bobot.dart';
+import 'package:sistempakarfinal/model/rule.dart';
+import 'package:sistempakarfinal/utils/api_rule.dart';
+import 'package:sistempakarfinal/model/rule.dart';
 import 'package:sistempakarfinal/screen/administrator/datarule/tambah_rule.dart';
 
 class DataRule extends StatefulWidget {
@@ -10,12 +11,12 @@ class DataRule extends StatefulWidget {
 
 class _DataRuleState extends State<DataRule> {
   BuildContext context;
-  ApiBobot apiBobot;
+  ApiRule apiRule;
 
   @override
   void initState() {
     super.initState();
-    apiBobot = ApiBobot();
+    apiRule = ApiRule();
   }
 
   @override
@@ -27,15 +28,15 @@ class _DataRuleState extends State<DataRule> {
       ),
       body: SafeArea(
         child: FutureBuilder(
-          future: apiBobot.getBobot(),
-          builder: (BuildContext context, AsyncSnapshot<List<Bobot>> snapshot) {
+          future: apiRule.getRule(),
+          builder: (BuildContext context, AsyncSnapshot<List<Rule>> snapshot) {
             if (snapshot.hasError) {
               return Center(
                 child: Text(
                     "Something wrong with message: ${snapshot.error.toString()}"),
               );
             } else if (snapshot.connectionState == ConnectionState.done) {
-              List<Bobot> bobots = snapshot.data;
+              List<Rule> bobots = snapshot.data;
               return _buildListView(bobots);
             } else {
               return Center(
@@ -70,12 +71,12 @@ class _DataRuleState extends State<DataRule> {
     );
   }
 
-  Widget _buildListView(List<Bobot> bobots) {
+  Widget _buildListView(List<Rule> rules) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
       child: ListView.builder(
         itemBuilder: (context, index) {
-          Bobot bobot = bobots[index];
+          Rule rule = rules[index];
           return Padding(
             padding: const EdgeInsets.only(top: 8.0),
             child: Card(
@@ -87,11 +88,12 @@ class _DataRuleState extends State<DataRule> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      bobot.keterangan,
+                      rule.penyakit,
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
-                    Text(bobot.bobotuser),
+                    Text(rule.gejala),
+                    Text(rule.bobot),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
@@ -103,14 +105,14 @@ class _DataRuleState extends State<DataRule> {
                                   return AlertDialog(
                                     title: Text("Warning"),
                                     content: Text(
-                                        "Are you sure want to delete data rule ${bobot.keterangan}?"),
+                                        "Are you sure want to delete data rule ${rule.penyakit}?"),
                                     actions: <Widget>[
                                       FlatButton(
                                         child: Text("Yes"),
                                         onPressed: () {
                                           Navigator.pop(context);
-                                          apiBobot
-                                              .deleteBobot(bobot.id)
+                                          apiRule
+                                              .deleteRule(rule.id)
                                               .then((isSuccess) {
                                             if (isSuccess) {
                                               setState(() {});
@@ -146,7 +148,7 @@ class _DataRuleState extends State<DataRule> {
                           onPressed: () {
                             Navigator.push(context,
                                 MaterialPageRoute(builder: (context) {
-                              return TambahRule(bobot: bobot);
+                              return TambahRule(rule: rule);
                             }));
                           },
                           child: Text(
@@ -162,7 +164,7 @@ class _DataRuleState extends State<DataRule> {
             ),
           );
         },
-        itemCount: bobots.length,
+        itemCount: rules.length,
       ),
     );
   }

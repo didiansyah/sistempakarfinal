@@ -1,23 +1,23 @@
-import 'package:sistempakarfinal/model/bobot.dart';
+import 'package:sistempakarfinal/model/rule.dart';
 import 'package:http/http.dart' show Client;
 
-class ApiBobot {
+class ApiRule {
   Client client = Client();
 
-  Future<List<Bobot>> getBobot() async {
-    final response = await client.get("http://laravelapi.test/api/v1/bobots");
+  Future<List<Rule>> getRule() async {
+    final response = await client.get("http://laravelapi.test/api/v1/rules");
     if (response.statusCode == 200) {
-      return bobotFromJson(response.body);
+      return ruleFromJson(response.body);
     } else {
       return null;
     }
   }
 
-  Future<bool> createBobot(Bobot data) async {
+  Future<bool> createRule(Rule data) async {
     final response = await client.post(
-      "http://laravelapi.test/api/v1/bobots/create",
+      "http://laravelapi.test/api/v1/rules/create",
       headers: {"content-type": "application/json"},
-      body: bobotToJson(data),
+      body: ruleToJson(data),
     );
     if (response.statusCode == 201) {
       return true;
@@ -26,11 +26,11 @@ class ApiBobot {
     }
   }
 
-  Future<bool> updateBobot(Bobot data) async {
+  Future<bool> updateRule(Rule data) async {
     final response = await client.put(
-      "http://laravelapi.test/api/v1/bobots/${data.id}/update",
+      "http://laravelapi.test/api/v1/rules/${data.id}/update",
       headers: {"content-type": "application/json"},
-      body: bobotToJson(data),
+      body: ruleToJson(data),
     );
     if (response.statusCode == 200) {
       return true;
@@ -39,13 +39,13 @@ class ApiBobot {
     }
   }
 
-  Future<bool> deleteBobot(int id) async {
+  Future<bool> deleteRule(int id) async {
     final response = await client.delete(
-      "http://laravelapi.test/api/v1/bobots/${id}/destroy",
+      "http://laravelapi.test/api/v1/rules/${id}/destroy",
       headers: {
         "content-type": "application/json",
         "Accept": "application/json"
-        },
+      },
     );
     print(response.statusCode);
     if (response.statusCode == 200) {

@@ -5,7 +5,6 @@ import 'package:sistempakarfinal/model/gejala.dart';
 final GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
 
 class TambahGejala extends StatefulWidget {
-
   Gejala gejala;
 
   TambahGejala({this.gejala});
@@ -15,15 +14,12 @@ class TambahGejala extends StatefulWidget {
 }
 
 class _TambahGejalaState extends State<TambahGejala> {
-
   bool _isLoading = false;
   ApiGejala _apiGejala = ApiGejala();
   bool _isFieldKodeValid;
   bool _isFieldNamaValid;
-  bool _isFieldBobotValid;
   TextEditingController _controllerKode = TextEditingController();
   TextEditingController _controllerNama = TextEditingController();
-  TextEditingController _controllerBobot = TextEditingController();
 
   @override
   void initState() {
@@ -32,8 +28,6 @@ class _TambahGejalaState extends State<TambahGejala> {
       _controllerKode.text = widget.gejala.kode;
       _isFieldNamaValid = true;
       _controllerNama.text = widget.gejala.nama;
-      _isFieldBobotValid = true;
-      _controllerBobot.text = widget.gejala.bobot;
     }
     super.initState();
   }
@@ -58,7 +52,6 @@ class _TambahGejalaState extends State<TambahGejala> {
               children: <Widget>[
                 _buildTextFieldKode(),
                 _buildTextFieldNama(),
-                _buildTextFieldBobot(),
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
                   child: RaisedButton(
@@ -73,10 +66,8 @@ class _TambahGejalaState extends State<TambahGejala> {
                     onPressed: () {
                       if (_isFieldKodeValid == null ||
                           _isFieldNamaValid == null ||
-                          _isFieldBobotValid == null ||
                           !_isFieldKodeValid ||
-                          !_isFieldNamaValid ||
-                          !_isFieldBobotValid) {
+                          !_isFieldNamaValid) {
                         _scaffoldState.currentState.showSnackBar(
                           SnackBar(
                             content: Text("Please fill all field"),
@@ -87,9 +78,7 @@ class _TambahGejalaState extends State<TambahGejala> {
                       setState(() => _isLoading = true);
                       String kode = _controllerKode.text.toString();
                       String nama = _controllerNama.text.toString();
-                      String bobot = _controllerBobot.text.toString();
-                      Gejala gejala =
-                          Gejala(kode: kode, nama: nama, bobot: bobot);
+                      Gejala gejala = Gejala(kode: kode, nama: nama);
                       if (widget.gejala == null) {
                         _apiGejala.createGejala(gejala).then((isSuccess) {
                           setState(() => _isLoading = false);
@@ -175,25 +164,6 @@ class _TambahGejalaState extends State<TambahGejala> {
         bool isFieldValid = value.trim().isNotEmpty;
         if (isFieldValid != _isFieldNamaValid) {
           setState(() => _isFieldNamaValid = isFieldValid);
-        }
-      },
-    );
-  }
-
-  Widget _buildTextFieldBobot() {
-    return TextField(
-      controller: _controllerBobot,
-      keyboardType: TextInputType.text,
-      decoration: InputDecoration(
-        labelText: "Bobot",
-        errorText: _isFieldBobotValid == null || _isFieldBobotValid
-            ? null
-            : "Bobot is required",
-      ),
-      onChanged: (value) {
-        bool isFieldValid = value.trim().isNotEmpty;
-        if (isFieldValid != _isFieldBobotValid) {
-          setState(() => _isFieldBobotValid = isFieldValid);
         }
       },
     );

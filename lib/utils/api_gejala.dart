@@ -45,7 +45,7 @@ class ApiGejala {
       headers: {
         "content-type": "application/json",
         "Accept": "application/json"
-        },
+      },
     );
     print(response.statusCode);
     if (response.statusCode == 200) {

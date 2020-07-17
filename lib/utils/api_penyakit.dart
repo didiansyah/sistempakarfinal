@@ -5,7 +5,8 @@ class ApiPenyakit {
   Client client = Client();
 
   Future<List<Penyakit>> getPenyakit() async {
-    final response = await client.get("http://laravelapi.test/api/v1/penyakits");
+    final response =
+        await client.get("http://laravelapi.test/api/v1/penyakits");
     if (response.statusCode == 200) {
       return penyakitFromJson(response.body);
     } else {
@@ -45,7 +46,7 @@ class ApiPenyakit {
       headers: {
         "content-type": "application/json",
         "Accept": "application/json"
-        },
+      },
     );
     print(response.statusCode);
     if (response.statusCode == 200) {

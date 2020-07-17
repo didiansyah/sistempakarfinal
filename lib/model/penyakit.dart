@@ -8,8 +8,7 @@ class Penyakit {
   Penyakit({this.id, this.kode, this.nama});
 
   factory Penyakit.fromJson(Map<String, dynamic> map) {
-    return Penyakit(
-        id: map["id"], kode: map["kode"], nama: map['nama']);
+    return Penyakit(id: map["id"], kode: map["kode"], nama: map['nama']);
   }
 
   Map<String, dynamic> toJson() {
@@ -20,9 +19,7 @@ class Penyakit {
   String toString() {
     return 'Penyakit{id: $id, kode: $kode, nama: $nama}';
   }
-
 }
-
 
 List<Penyakit> penyakitFromJson(String jsonData) {
   final data = json.decode(jsonData);

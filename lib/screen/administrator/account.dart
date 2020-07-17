@@ -6,25 +6,24 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sistempakarfinal/utils/api.dart';
 import 'package:sistempakarfinal/screen/homemain.dart';
 
-
 class Akun extends StatefulWidget {
   @override
   _AkunState createState() => _AkunState();
 }
 
 class _AkunState extends State<Akun> {
-
   String name;
   @override
-  void initState(){
+  void initState() {
     _loadUserData();
     super.initState();
   }
-  _loadUserData() async{
+
+  _loadUserData() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var user = jsonDecode(localStorage.getString('user'));
 
-    if(user != null) {
+    if (user != null) {
       setState(() {
         name = user['fname'];
       });
@@ -66,37 +65,36 @@ class _AkunState extends State<Akun> {
               height: 60.0,
               child: RaisedButton(
                 color: Colors.green,
-                elevation: 7.0,                        
-                  child: Center(
-                    child: Text(
-                      'LOGOUT',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Montserrat'),
-                    ),
+                elevation: 7.0,
+                child: Center(
+                  child: Text(
+                    'LOGOUT',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Montserrat'),
                   ),
-                  onPressed: (){
-                    logout();
-                    },
+                ),
+                onPressed: () {
+                  logout();
+                },
               ),
             ),
           ],
         ),
       ),
     );
-}
+  }
 
-void logout() async{
+  void logout() async {
     var res = await Network().getData('/logout');
     var body = json.decode(res.body);
-    if(body['success']){
+    if (body['success']) {
       SharedPreferences localStorage = await SharedPreferences.getInstance();
       localStorage.remove('user');
       localStorage.remove('token');
       Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context)=>HomeMain()));
+          context, MaterialPageRoute(builder: (context) => HomeMain()));
     }
   }
 }

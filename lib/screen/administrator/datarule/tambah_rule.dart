@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:sistempakarfinal/utils/api_bobot.dart';
-import 'package:sistempakarfinal/model/bobot.dart';
+import 'package:sistempakarfinal/utils/api_rule.dart';
+import 'package:sistempakarfinal/model/rule.dart';
 
 final GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
 
 class TambahRule extends StatefulWidget {
-  Bobot bobot;
+  Rule rule;
 
-  TambahRule({this.bobot});
+  TambahRule({this.rule});
 
   @override
   _TambahRuleState createState() => _TambahRuleState();
@@ -15,19 +15,23 @@ class TambahRule extends StatefulWidget {
 
 class _TambahRuleState extends State<TambahRule> {
   bool _isLoading = false;
-  ApiBobot _apiBobot = ApiBobot();
-  bool _isFieldKeteranganValid;
-  bool _isFieldBobotuserValid;
-  TextEditingController _controllerKeterangan = TextEditingController();
-  TextEditingController _controllerBobotuser = TextEditingController();
+  ApiRule _apiRule = ApiRule();
+  bool _isFieldPenyakitValid;
+  bool _isFieldGejalaValid;
+  bool _isFieldBobotValid;
+  TextEditingController _controllerPenyakit = TextEditingController();
+  TextEditingController _controllerGejala = TextEditingController();
+  TextEditingController _controllerBobot = TextEditingController();
 
   @override
   void initState() {
-    if (widget.bobot != null) {
-      _isFieldKeteranganValid = true;
-      _controllerKeterangan.text = widget.bobot.keterangan;
-      _isFieldBobotuserValid = true;
-      _controllerBobotuser.text = widget.bobot.bobotuser;
+    if (widget.rule != null) {
+      _isFieldPenyakitValid = true;
+      _controllerPenyakit.text = widget.rule.penyakit;
+      _isFieldGejalaValid = true;
+      _controllerGejala.text = widget.rule.gejala;
+      _isFieldBobotValid = true;
+      _controllerBobot.text = widget.rule.bobot;
     }
     super.initState();
   }
@@ -39,7 +43,7 @@ class _TambahRuleState extends State<TambahRule> {
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white),
         title: Text(
-          widget.bobot == null ? "Form Add" : "Change Data",
+          widget.rule == null ? "Form Add" : "Change Data",
           style: TextStyle(color: Colors.white),
         ),
       ),
@@ -50,13 +54,14 @@ class _TambahRuleState extends State<TambahRule> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                _buildTextFieldKeterangan(),
-                _buildTextFieldBobotuser(),
+                _buildTextFieldPenyakit(),
+                _buildTextFieldGejala(),
+                _buildTextFieldBobot(),
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
                   child: RaisedButton(
                     child: Text(
-                      widget.bobot == null
+                      widget.rule == null
                           ? "Submit".toUpperCase()
                           : "Update Data".toUpperCase(),
                       style: TextStyle(
@@ -64,10 +69,12 @@ class _TambahRuleState extends State<TambahRule> {
                       ),
                     ),
                     onPressed: () {
-                      if (_isFieldKeteranganValid == null ||
-                          _isFieldBobotuserValid == null ||
-                          !_isFieldKeteranganValid ||
-                          !_isFieldBobotuserValid) {
+                      if (_isFieldPenyakitValid == null ||
+                          _isFieldGejalaValid == null ||
+                          _isFieldBobotValid == null ||
+                          !_isFieldPenyakitValid ||
+                          !_isFieldGejalaValid ||
+                          !_isFieldBobotValid) {
                         _scaffoldState.currentState.showSnackBar(
                           SnackBar(
                             content: Text("Please fill all field"),
@@ -76,12 +83,13 @@ class _TambahRuleState extends State<TambahRule> {
                         return;
                       }
                       setState(() => _isLoading = true);
-                      String keterangan = _controllerKeterangan.text.toString();
-                      String bobotuser = _controllerBobotuser.text.toString();
-                      Bobot bobot =
-                          Bobot(keterangan: keterangan, bobotuser: bobotuser);
-                      if (widget.bobot == null) {
-                        _apiBobot.createBobot(bobot).then((isSuccess) {
+                      String penyakit = _controllerPenyakit.text.toString();
+                      String gejala = _controllerGejala.text.toString();
+                      String bobot = _controllerBobot.text.toString();
+                      Rule rule = Rule(
+                          penyakit: penyakit, gejala: gejala, bobot: bobot);
+                      if (widget.rule == null) {
+                        _apiRule.createRule(rule).then((isSuccess) {
                           setState(() => _isLoading = false);
                           if (isSuccess) {
                             Navigator.pop(_scaffoldState.currentState.context);
@@ -92,8 +100,8 @@ class _TambahRuleState extends State<TambahRule> {
                           }
                         });
                       } else {
-                        bobot.id = widget.bobot.id;
-                        _apiBobot.updateBobot(bobot).then((isSuccess) {
+                        rule.id = widget.rule.id;
+                        _apiRule.updateRule(rule).then((isSuccess) {
                           setState(() => _isLoading = false);
                           if (isSuccess) {
                             Navigator.pop(_scaffoldState.currentState.context);
@@ -132,39 +140,58 @@ class _TambahRuleState extends State<TambahRule> {
     );
   }
 
-  Widget _buildTextFieldKeterangan() {
+  Widget _buildTextFieldPenyakit() {
     return TextField(
-      controller: _controllerKeterangan,
+      controller: _controllerPenyakit,
       keyboardType: TextInputType.text,
       decoration: InputDecoration(
-        labelText: "Keterangan",
-        errorText: _isFieldKeteranganValid == null || _isFieldKeteranganValid
+        labelText: "Penyakit",
+        errorText: _isFieldPenyakitValid == null || _isFieldPenyakitValid
             ? null
-            : "Keterangan is required",
+            : "Penyakit is required",
       ),
       onChanged: (value) {
         bool isFieldValid = value.trim().isNotEmpty;
-        if (isFieldValid != _isFieldKeteranganValid) {
-          setState(() => _isFieldKeteranganValid = isFieldValid);
+        if (isFieldValid != _isFieldPenyakitValid) {
+          setState(() => _isFieldPenyakitValid = isFieldValid);
         }
       },
     );
   }
 
-  Widget _buildTextFieldBobotuser() {
+  Widget _buildTextFieldGejala() {
     return TextField(
-      controller: _controllerBobotuser,
+      controller: _controllerGejala,
       keyboardType: TextInputType.text,
       decoration: InputDecoration(
-        labelText: "Bobot User",
-        errorText: _isFieldBobotuserValid == null || _isFieldBobotuserValid
+        labelText: "Gejala",
+        errorText: _isFieldGejalaValid == null || _isFieldGejalaValid
             ? null
-            : "Bobot User is required",
+            : "Gejala User is required",
       ),
       onChanged: (value) {
         bool isFieldValid = value.trim().isNotEmpty;
-        if (isFieldValid != _isFieldBobotuserValid) {
-          setState(() => _isFieldBobotuserValid = isFieldValid);
+        if (isFieldValid != _isFieldGejalaValid) {
+          setState(() => _isFieldGejalaValid = isFieldValid);
+        }
+      },
+    );
+  }
+
+  Widget _buildTextFieldBobot() {
+    return TextField(
+      controller: _controllerBobot,
+      keyboardType: TextInputType.text,
+      decoration: InputDecoration(
+        labelText: "Bobot",
+        errorText: _isFieldBobotValid == null || _isFieldBobotValid
+            ? null
+            : "Bobot is required",
+      ),
+      onChanged: (value) {
+        bool isFieldValid = value.trim().isNotEmpty;
+        if (isFieldValid != _isFieldBobotValid) {
+          setState(() => _isFieldBobotValid = isFieldValid);
         }
       },
     );
