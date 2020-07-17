@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sistempakarfinal/screen/homemain.dart';
+import 'package:sistempakarfinal/components/wave_progress.dart';
+import 'package:sistempakarfinal/components/screensize.dart';
 
 class HasilDiagnosa extends StatefulWidget {
   @override
@@ -62,12 +64,19 @@ class _HasilDiagnosaState extends State<HasilDiagnosa> {
               children: <Widget>[
                 Center(
                   child: Container(
-                    margin: EdgeInsets.only(top: 40.0),
+                    margin: EdgeInsets.only(top: 20.0),
                   ),
+                ),
+                vaweCard(
+                  context,
+                  "User",
+                  "Wave",
+                  Colors.grey.shade100,
+                  Color(0xFF3CB371),
                 ),
                 Center(
                   child: Container(
-                    margin: EdgeInsets.only(top: 40.0),
+                    margin: EdgeInsets.only(top: 20.0),
                     child: Text(
                       'Didi Khodriansyah',
                       style: TextStyle(
@@ -80,7 +89,7 @@ class _HasilDiagnosaState extends State<HasilDiagnosa> {
                 ),
                 Center(
                   child: Container(
-                    margin: EdgeInsets.only(top: 10.0),
+                    margin: EdgeInsets.only(top: 8.0),
                     child: Text(
                       'Laki-Laki',
                       style: TextStyle(
@@ -94,7 +103,7 @@ class _HasilDiagnosaState extends State<HasilDiagnosa> {
                   height: 10.0,
                 ),
                 Container(
-                  margin: EdgeInsets.only(left: 60, right: 20, top: 40),
+                  margin: EdgeInsets.only(left: 60, right: 20, top: 20),
                   child: Center(
                     child: Text(
                       "Kamu mengalami Penyakit Miopia dengan nilai CF 0.904 atau 90.4%",
@@ -104,7 +113,7 @@ class _HasilDiagnosaState extends State<HasilDiagnosa> {
                 ),
                 Center(
                   child: Container(
-                    margin: EdgeInsets.only(bottom: 40.0, top: 20.0),
+                    margin: EdgeInsets.only(bottom: 20.0, top: 20.0),
                     child: Text.rich(
                       TextSpan(
                         children: const <TextSpan>[
@@ -149,4 +158,39 @@ class _HasilDiagnosaState extends State<HasilDiagnosa> {
       ),
     );
   }
+}
+
+Widget vaweCard(BuildContext context, String name, String fields,
+    Color fillColor, Color bgColor) {
+  return Container(
+    margin: EdgeInsets.only(
+      right: 20,
+    ),
+    padding: EdgeInsets.only(left: 15),
+    height: screenAwareSize(60, context),
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(6),
+    ),
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Stack(
+          alignment: Alignment.center,
+          children: <Widget>[
+            WaveProgress(
+              screenAwareSize(60, context),
+              fillColor,
+              bgColor,
+              70,
+            ),
+            IconButton(
+                icon: Icon(Icons.verified_user),
+                color: Colors.white,
+                onPressed: () {}),
+          ],
+        ),
+      ],
+    ),
+  );
 }
