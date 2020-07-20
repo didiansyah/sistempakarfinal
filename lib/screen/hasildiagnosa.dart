@@ -114,42 +114,43 @@ class _HasilDiagnosaState extends State<HasilDiagnosa> {
     );
   }
 
-  Widget vaweCard(BuildContext context, String name, String fields,
-      Color fillColor, Color bgColor) {
-    return Container(
-      margin: EdgeInsets.only(
-        right: 20,
-      ),
-      padding: EdgeInsets.only(left: 15),
-      height: screenAwareSize(60, widget.context),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(6),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Stack(
-            alignment: Alignment.center,
-            children: <Widget>[
-              WaveProgress(
-                screenAwareSize(60, widget.context),
-                fillColor,
-                bgColor,
-                70,
-              ),
-              IconButton(
-                  icon: Icon(Icons.verified_user),
-                  color: Colors.white,
-                  onPressed: () {}),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
+  // Widget vaweCard(BuildContext context, String name, String fields,
+  //     Color fillColor, Color bgColor) {
+  //   return Container(
+  //     margin: EdgeInsets.only(
+  //       right: 20,
+  //     ),
+  //     padding: EdgeInsets.only(left: 15),
+  //     height: screenAwareSize(25, widget.context),
+  //     decoration: BoxDecoration(
+  //       borderRadius: BorderRadius.circular(6),
+  //     ),
+  //     child: Row(
+  //       crossAxisAlignment: CrossAxisAlignment.center,
+  //       mainAxisAlignment: MainAxisAlignment.center,
+  //       children: <Widget>[
+  //         Stack(
+  //           alignment: Alignment.center,
+  //           children: <Widget>[
+  //             WaveProgress(
+  //               screenAwareSize(10, widget.context),
+  //               fillColor,
+  //               bgColor,
+  //               70,
+  //             ),
+  //             IconButton(
+  //                 icon: Icon(Icons.verified_user),
+  //                 color: Colors.white,
+  //                 onPressed: () {}),
+  //           ],
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   Widget _buildHasilDiagnosa(data) {
+    log(data.toString());
     return Card(
       color: Colors.white,
       elevation: 6.0,
@@ -197,7 +198,7 @@ class _HasilDiagnosaState extends State<HasilDiagnosa> {
             height: 10.0,
           ),
           Container(
-            margin: EdgeInsets.only(left: 60, right: 20, top: 20),
+            margin: EdgeInsets.only(left: 30, right: 20, top: 20),
             child: Center(
               child: Text(
                 data['hasil'] ?? ' ',

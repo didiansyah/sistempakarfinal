@@ -19,7 +19,7 @@ class Diagnosa extends StatefulWidget {
 class _DiagnosaState extends State<Diagnosa> {
   ApiGejala apiGejala;
   ApiHasilDiagnosa apiHasilDiagnosa;
-  List<Object> gejalaValue = new List<Object>();
+  List<bool> gejalaValue = new List<bool>();
 
   TextEditingController _controllerNama = TextEditingController();
   TextEditingController _controllerJenisKelamin = TextEditingController();
@@ -34,7 +34,7 @@ class _DiagnosaState extends State<Diagnosa> {
     apiGejala = ApiGejala();
   }
 
-  void GejalaValueChange(Object val, int index) {
+  void GejalaValueChange(bool val, int index) {
     setState(() {
       gejalaValue[index] = val;
     });
@@ -217,7 +217,7 @@ class _DiagnosaState extends State<Diagnosa> {
 
   Widget _buildListView(List<Gejala> gejalas) {
     for (int i = 0; i < gejalas.length; i++) {
-      gejalaValue.add({'kode': gejalas[i].kode, 'value': false});
+      gejalaValue.add(false);
     }
     return Padding(
       padding: const EdgeInsets.only(top: 10.0),
@@ -236,8 +236,7 @@ class _DiagnosaState extends State<Diagnosa> {
                       title: Text(gejala.nama),
                       controlAffinity: ListTileControlAffinity.leading,
                       onChanged: (bool val) {
-                        GejalaValueChange(
-                            {'kode': gejala.kode, 'value': val}, index);
+                        GejalaValueChange(val, index);
                       }
                       // Text(
                       //   gejala.nama,
